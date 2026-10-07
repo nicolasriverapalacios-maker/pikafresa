@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 400" fill="none"><defs><pattern id="semillas" width="28" height="28" patternUnits="userSpaceOnUse"><path d="m8 7 2 5" stroke="#ffe891" stroke-width="3" stroke-linecap="round"/></pattern></defs><ellipse cx="181" cy="363" rx="104" ry="17" fill="#9a361b" opacity=".10"/>
+<path d="m257 129 36-107" stroke="#9e2827" stroke-width="15" stroke-linecap="round"/><path d="m257 129 36-107" stroke="#ed747f" stroke-width="8" stroke-linecap="round"/>
+<path d="M82 126h198l-23 204q-77 40-152 0Z" fill="#fff7e5" stroke="#a6262b" stroke-width="5"/>
+<path d="m91 176 181 8-10 82q-25 27-51 5t-48 0q-32 27-63 0Z" fill="#f59baf"/>
+<path d="M97 238q18-37 37-2t38-8q24-42 47 0t45-1l-8 105q-75 33-150-3Z" fill="#ec4247"/>
+<path d="M107 257q20-18 35 3t40-3 40 1 37-2l-6 36q-29 25-58 4t-45 1-40-6Z" fill="#fff7e5"/>
+<ellipse cx="181" cy="127" rx="99" ry="31" fill="#fff9e7" stroke="#a6262b" stroke-width="5"/>
+<path d="M105 115q-7-35 27-39 0-33 38-25 28-33 48 3 38-7 38 29 29 12 10 36" fill="#fff9e7" stroke="#a6262b" stroke-width="4" stroke-linejoin="round"/>
+<path d="M121 77q-16-32 9-45 21-5 31 16 24-9 34 11 12 30-36 59-24-13-38-41Z" fill="#df303d" stroke="#a6262b" stroke-width="4"/><path d="M121 77q-16-32 9-45 21-5 31 16 24-9 34 11 12 30-36 59-24-13-38-41Z" fill="url(#semillas)"/>
+<path d="m153 48-20-23 23 9 12-18 0 23 20 1-26 14" fill="#568344" stroke="#355d32" stroke-width="3" stroke-linejoin="round"/>
+<path d="m116 154 12 163" stroke="white" stroke-width="9" opacity=".6" stroke-linecap="round"/>
+<ellipse cx="183" cy="205" rx="48" ry="37" fill="#ffcf24" stroke="#a6262b" stroke-width="3"/><text x="183" y="201" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="900" fill="#b7242f">pika</text><text x="183" y="222" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="900" fill="#b7242f">fresa</text></svg>

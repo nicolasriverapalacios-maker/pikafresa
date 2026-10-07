@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administración | Pikafresa</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/rediseno.css">
+</head>
+
+<body class="administracion">
+
+    <!-- =========================
+         NOTIFICACIÓN NUEVO PEDIDO
+    ========================== -->
+
+    <div
+        id="notificacion-pedido"
+        class="notificacion-pedido"
+    >
+        <strong>🌽 ¡Nuevo pedido!</strong>
+        <span id="texto-notificacion-pedido"></span>
+    </div>
+
+
+    <!-- =========================
+         LOGIN
+    ========================== -->
+
+    <main
+        id="login-admin"
+        class="admin-login"
+    >
+
+        <div class="admin-login-contenedor">
+
+            <h1><img class="admin-logo" src="img/pikafresa-logo.jpg" alt="Pikafresa" width="499" height="400"></h1>
+
+            <h2>Administración</h2>
+
+            <p>Inicia sesión para continuar</p>
+
+
+            <div class="campo-formulario">
+
+                <label for="admin-email">
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="admin-email"
+                    placeholder="Correo del administrador"
+                >
+
+            </div>
+
+
+            <div class="campo-formulario">
+
+                <label for="admin-password">
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="admin-password"
+                    placeholder="Contraseña"
+                >
+
+            </div>
+
+
+            <button
+                class="agregar-modal"
+                id="boton-login"
+                onclick="iniciarSesion()"
+            >
+                Iniciar sesión
+            </button>
+
+
+            <p id="mensaje-login"></p>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         PANEL ADMINISTRADOR
+    ========================== -->
+
+    <section
+        id="panel-admin"
+        class="panel-admin"
+        style="display: none;"
+    >
+
+        <!-- CABECERA -->
+
+        <div class="admin-cabecera">
+
+            <div>
+
+                <h1><img class="admin-logo" src="img/pikafresa-logo.jpg" alt="Pikafresa" width="499" height="400"></h1>
+
+                <p>
+                    Panel de administración
+                </p>
+
+            </div>
+
+
+            <button
+                class="boton-cerrar-sesion"
+                onclick="cerrarSesion()"
+            >
+                Cerrar sesión
+            </button>
+
+        </div>
+
+
+        <!-- CONTENIDO -->
+
+        <div class="admin-contenido">
+
+
+            <!-- =========================
+                 MENÚ
+            ========================== -->
+
+            <nav class="admin-menu">
+
+                <button
+                    class="admin-menu-activo"
+                    onclick="mostrarSeccionAdmin('pedidos', this)"
+                >
+                    Pedidos
+                </button>
+
+
+                <button
+                    onclick="mostrarSeccionAdmin('productos', this)"
+                >
+                    Productos
+                </button>
+
+
+                <button
+                    onclick="mostrarSeccionAdmin('extras', this)"
+                >
+                    Extras
+                </button>
+
+
+                <button
+                    onclick="mostrarSeccionAdmin('sabritas', this)"
+                >
+                    Sabritas
+                </button>
+
+
+                <button
+                    onclick="mostrarSeccionAdmin('estadisticas', this)"
+                >
+                    Estadísticas
+                </button>
+
+            </nav>
+
+
+            <!-- =========================
+                 PEDIDOS
+            ========================== -->
+
+            <section id="seccion-pedidos">
+
+                <div class="admin-titulo">
+
+                    <div>
+
+                        <h2>Pedidos</h2>
+
+                        <p>
+                            Pedidos recibidos en Pikafresa
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="boton-actualizar"
+                        onclick="cargarPedidos()"
+                    >
+                        Actualizar
+                    </button>
+
+                </div>
+
+
+                <!-- RESUMEN DE HOY -->
+
+                <div class="resumen-ventas">
+
+                    <div class="tarjeta-resumen">
+
+                        <span>
+                            Ventas de hoy
+                        </span>
+
+                        <strong id="ventas-hoy">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-resumen">
+
+                        <span>
+                            Pedidos entregados
+                        </span>
+
+                        <strong id="pedidos-hoy">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-resumen">
+
+                        <span>
+                            Ticket promedio
+                        </span>
+
+                        <strong id="ticket-promedio">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTROS ACTIVOS / HISTORIAL -->
+
+                <div class="filtros-pedidos">
+
+                    <button
+                        id="btn-pedidos-activos"
+                        class="filtro-pedido activo"
+                        onclick="cambiarVistaPedidos('activos')"
+                    >
+                        Pedidos activos
+
+                        <span id="contador-pedidos-activos">
+                            0
+                        </span>
+                    </button>
+
+
+                    <button
+                        id="btn-historial"
+                        class="filtro-pedido"
+                        onclick="cambiarVistaPedidos('historial')"
+                    >
+                        Historial
+                    </button>
+
+                </div>
+
+
+                <!-- BUSCADOR DEL HISTORIAL -->
+
+                <div
+                    id="controles-historial"
+                    class="controles-historial"
+                    style="display: none;"
+                >
+
+                    <input
+                        type="text"
+                        id="buscar-historial"
+                        placeholder="Buscar pedido, cliente o teléfono..."
+                        oninput="filtrarHistorial()"
+                    >
+
+
+                    <input
+                        type="date"
+                        id="fecha-historial"
+                        onchange="filtrarHistorial()"
+                    >
+
+
+                    <button
+                        type="button"
+                        onclick="limpiarFiltrosHistorial()"
+                    >
+                        Limpiar
+                    </button>
+
+                </div>
+
+
+                <!-- LISTA DE PEDIDOS -->
+
+                <div id="lista-pedidos">
+
+                    <p>
+                        Cargando pedidos...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 PRODUCTOS
+            ========================== -->
+
+            <section
+                id="seccion-productos"
+                style="display: none;"
+            >
+
+                <div class="admin-titulo">
+
+                    <div>
+
+                        <h2>Productos</h2>
+
+                        <p>
+                            Administra precios y disponibilidad.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="lista-productos-admin">
+
+                    <p>
+                        Cargando productos...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 EXTRAS
+            ========================== -->
+
+            <section
+                id="seccion-extras-admin"
+                style="display: none;"
+            >
+
+                <div class="admin-titulo">
+
+                    <div>
+
+                        <h2>Extras</h2>
+
+                        <p>
+                            Administra precios y disponibilidad
+                            de los extras.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="lista-extras-admin">
+
+                    <p>
+                        Cargando extras...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 SABRITAS
+            ========================== -->
+
+            <section
+                id="seccion-sabritas-admin"
+                style="display: none;"
+            >
+
+                <div class="admin-titulo">
+
+                    <div>
+
+                        <h2>Sabritas</h2>
+
+                        <p>
+                            Administra la disponibilidad
+                            de los sabores.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="lista-sabritas-admin">
+
+                    <p>
+                        Cargando sabores...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 ESTADÍSTICAS
+            ========================== -->
+
+            <section
+                id="seccion-estadisticas"
+                style="display: none;"
+            >
+
+                <div class="admin-titulo">
+
+                    <div>
+
+                        <h2>Estadísticas</h2>
+
+                        <p>
+                            Resumen de ventas de Pikafresa.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="boton-actualizar"
+                        onclick="cargarEstadisticas()"
+                    >
+                        Actualizar
+                    </button>
+
+                </div>
+
+
+                <div class="estadisticas-grid">
+
+
+                    <div class="tarjeta-estadistica">
+
+                        <span>
+                            Ventas de hoy
+                        </span>
+
+                        <strong id="estadistica-hoy">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-estadistica">
+
+                        <span>
+                            Ventas esta semana
+                        </span>
+
+                        <strong id="estadistica-semana">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-estadistica">
+
+                        <span>
+                            Ventas este mes
+                        </span>
+
+                        <strong id="estadistica-mes">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-estadistica">
+
+                        <span>
+                            Pedidos del mes
+                        </span>
+
+                        <strong id="estadistica-pedidos">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-estadistica">
+
+                        <span>
+                            Ticket promedio
+                        </span>
+
+                        <strong id="estadistica-ticket">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tarjeta-estadistica">
+
+                        <span>
+                            Producto más vendido
+                        </span>
+
+                        <strong id="estadistica-producto">
+                            Sin datos
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GRÁFICA -->
+
+                <div class="grafica-estadisticas">
+
+                    <h3>
+                        Ventas de los últimos 7 días
+                    </h3>
+
+                    <div id="grafica-ventas"></div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SCRIPTS
+    ========================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>

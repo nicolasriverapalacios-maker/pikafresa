@@ -1,0 +1,15 @@
+.sucursales{margin:0 max(5%,calc((100vw - 1240px)/2)) 80px;scroll-margin-top:120px}
+.sucursales-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.sucursal{display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:32px;border:1px solid var(--borde);border-top:6px solid var(--amarillo);border-radius:18px;background:#fffdf7;box-shadow:var(--sombra)}
+.sucursal:nth-child(2){border-top-color:var(--rosa)}
+.sucursal-etiqueta{font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--rojo)}
+.sucursal h3{font-size:28px;line-height:1.15;letter-spacing:-1px;color:var(--rojo)}
+.sucursal address{font-style:normal;font-size:15px;line-height:1.8;color:var(--texto);max-width:100%}
+.sucursal-horario{width:100%;padding-top:18px;border-top:1px dashed var(--borde);font-size:14px;line-height:1.9}
+.sucursal-horario strong{display:block;color:var(--texto)}
+.sucursal-nota{font-size:13px;line-height:1.6;color:var(--texto-suave)}
+.boton-ubicacion{display:inline-flex;align-items:center;justify-content:center;gap:9px;margin-top:auto;padding:13px 18px;min-height:48px;border:1px solid var(--rojo);border-radius:10px;background:var(--rojo);color:white;text-decoration:none;font-size:14px;font-weight:800;box-shadow:3px 3px 0 var(--texto)}
+.boton-ubicacion:hover{background:var(--rojo-oscuro)}
+.boton-ubicacion svg{width:21px;height:21px;flex-shrink:0}
+.footer-sucursales{color:var(--rojo);font-weight:800;font-size:14px;text-underline-offset:6px}
+@media(max-width:760px){.sucursales{margin:0 5% 50px;scroll-margin-top:95px}.sucursales-grid{grid-template-columns:minmax(0,1fr);gap:18px}.sucursal{padding:25px}.sucursal h3{font-size:25px}}

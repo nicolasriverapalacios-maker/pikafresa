@@ -1,0 +1,17 @@
+/* Movimientos breves que acompañan la navegación y las acciones. */
+.boton-menu,.boton-instagram,.boton-ubicacion,.boton-carrito,.agregar,.categoria{transition:transform .2s ease,background-color .2s ease,box-shadow .2s ease}
+.producto{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.sucursal{transition:transform .25s ease,box-shadow .25s ease}
+.nav-principal a{position:relative}
+.nav-principal a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--rojo);transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+@media(hover:hover) and (pointer:fine){
+  .boton-menu:hover,.boton-instagram:hover,.boton-ubicacion:hover{transform:translateY(-3px)}
+  .sucursal:hover{transform:translateY(-4px);box-shadow:0 9px 0 #e8d9ba66}
+  .agregar:hover{transform:scale(1.08)}
+  .nav-principal a:hover::after{transform:scaleX(1)}
+}
+.boton-menu:active,.boton-instagram:active,.boton-ubicacion:active,.boton-carrito:active,.agregar:active,.categoria:active{transform:scale(.97)}
+@media(prefers-reduced-motion:reduce){
+  .boton-menu,.boton-instagram,.boton-ubicacion,.boton-carrito,.agregar,.categoria,.producto,.sucursal,.nav-principal a::after{transition:none!important}
+  .boton-menu:hover,.boton-instagram:hover,.boton-ubicacion:hover,.sucursal:hover,.agregar:hover,.producto:hover,.boton-menu:active,.boton-instagram:active,.boton-ubicacion:active,.boton-carrito:active,.agregar:active,.categoria:active{transform:none}
+}

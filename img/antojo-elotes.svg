@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 400" fill="none"><defs><pattern id="semillas" width="28" height="28" patternUnits="userSpaceOnUse"><path d="m8 7 2 5" stroke="#ffe891" stroke-width="3" stroke-linecap="round"/></pattern></defs><ellipse cx="180" cy="365" rx="80" ry="13" fill="#9a361b" opacity=".1"/><path d="M177 257v99" stroke="#a6262b" stroke-width="19" stroke-linecap="round"/><path d="M177 257v97" stroke="#dfac67" stroke-width="11" stroke-linecap="round"/>
+<rect x="108" y="41" width="143" height="253" rx="68" fill="#ffe17c" stroke="#a6262b" stroke-width="5"/>
+<g stroke="#e9ac2b" stroke-width="4"><path d="M143 58v218M179 47v241M215 59v218M113 104h132M110 140h139M110 177h139M111 215h136M122 251h114"/></g>
+<path d="M123 81q28-30 24 9t28-3 27 13 28-1M120 136q27-27 31 8t28 0 27 8 27-4M121 195q25-27 29 7t29-2 30 8 24-8M139 244q21-16 30 8t34 3" stroke="#fff9e7" stroke-width="14" stroke-linecap="round"/>
+<g fill="#c42d32"><circle cx="128" cy="114" r="4"/><circle cx="192" cy="92" r="5"/><circle cx="227" cy="127" r="4"/><circle cx="170" cy="175" r="5"/><circle cx="211" cy="191" r="4"/><circle cx="138" cy="224" r="5"/><circle cx="192" cy="270" r="4"/><circle cx="226" cy="227" r="4"/></g>
+<path d="m266 54 14-16m-6 46 23-3M81 230l-18 10" stroke="#a6262b" stroke-width="5" stroke-linecap="round"/></svg>
