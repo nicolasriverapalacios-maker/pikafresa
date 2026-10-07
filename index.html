@@ -1,323 +1,223 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Pika Fresa | Menú</title>
 
-    <link
-        rel="stylesheet"
-        href="css/styles.css"
-    >
-    <meta name="theme-color" content="#ffcf24">
-    <meta name="description" content="Dale gusto a tu antojo en Pikafresa. Fresas con crema, elotes, esquites y bebidas preparados a tu gusto.">
-    <link rel="stylesheet" href="css/rediseno.css">
-    <link rel="stylesheet" href="css/instagram.css">
-    <link rel="stylesheet" href="css/sucursales.css">
-    <link rel="stylesheet" href="css/animaciones.css">
-</head>
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="theme-color" content="#ffcf24" />
+    <meta
+      name="description"
+      content="Dale gusto a tu antojo en Pikafresa. Fresas con crema, elotes, esquites y bebidas preparados a tu gusto."
+    />
+  </head>
 
-
-<body class="tienda">
-
+  <body class="tienda">
     <!-- =========================
          ENCABEZADO
     ========================== -->
 
-        <a class="saltar-contenido" href="#menu">Ir al menú</a>
-    <div class="franja-marca">ANTOJITOS PREPARADOS AL MOMENTO <span aria-hidden="true">✳</span> UN POQUITO DE PIKA, MUCHO SABOR</div>
+    <a class="saltar-contenido" href="#menu">Ir al menú</a>
+    <div class="franja-marca">
+      ANTOJITOS PREPARADOS AL MOMENTO <span aria-hidden="true">✳</span> UN POQUITO DE PIKA, MUCHO
+      SABOR
+    </div>
     <header class="encabezado">
-        <a class="marca" href="#inicio" aria-label="Pikafresa, inicio">
-            <img class="marca-logo" src="img/pikafresa-logo.jpg" alt="Pika Fresa" width="499" height="400">
-        </a>
-        <nav class="nav-principal" aria-label="Navegación principal"><a href="#menu">Nuestro menú</a><a href="#como-pedir">¿Cómo pedir?</a><a href="#sucursales">Sucursales</a></nav>
-        <button class="boton-carrito" onclick="mostrarCarrito()" aria-label="Abrir mi pedido">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z M8 8V6a4 4 0 0 1 8 0v2"/></svg>
-            Mi pedido <span id="contador-carrito" aria-live="polite">0</span>
-        </button>
+      <a class="marca" href="#inicio" aria-label="Pikafresa, inicio">
+        <img
+          class="marca-logo"
+          src="img/pikafresa-logo.jpg"
+          alt="Pika Fresa"
+          width="499"
+          height="400"
+        />
+      </a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <a href="#menu">Nuestro menú</a><a href="#como-pedir">¿Cómo pedir?</a
+        ><a href="#sucursales">Sucursales</a>
+      </nav>
+      <button class="boton-carrito" onclick="mostrarCarrito()" aria-label="Abrir mi pedido">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M5 8h14l1 13H4L5 8Z M8 8V6a4 4 0 0 1 8 0v2" />
+        </svg>
+        Mi pedido <span id="contador-carrito" aria-live="polite">0</span>
+      </button>
     </header>
-
 
     <!-- =========================
          CONTENIDO PRINCIPAL
     ========================== -->
 
     <main>
+      <!-- HERO -->
 
+      <section class="hero" id="inicio" aria-labelledby="titulo-hero">
+        <div class="hero-contenido">
+          <p class="pequeno"><span aria-hidden="true">✳</span> AQUÍ SE VIENE A DISFRUTAR</p>
+          <h2 id="titulo-hero">Se antoja.<br />Se pide.<br /><span>Se disfruta.</span></h2>
+          <p class="hero-descripcion">
+            Dulce, picosito y como a ti te gusta. Fresas con crema, elotes, esquites y ese antojo
+            que te alegra el día.
+          </p>
+          <a href="#menu" class="boton-menu"
+            >Encuentra tu antojo <span aria-hidden="true">↗</span></a
+          >
+          <div class="hero-nota">
+            <span aria-hidden="true">♡</span> Preparado al momento. Hecho a tu gusto.
+          </div>
+          <a
+            class="boton-instagram"
+            href="https://www.instagram.com/pikafresa.official/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Síguenos en Instagram: @pikafresa.official (abre en una pestaña nueva)"
+          >
+            <img src="img/instagram.svg" alt="" width="34" height="34" />
+            <span><small>Síguenos en Instagram</small><strong>@pikafresa.official</strong></span>
+          </a>
+        </div>
+        <div class="hero-arte" aria-label="Fresas con crema y cheelote de Pikafresa">
+          <div class="arte-circulo"></div>
+          <span class="arte-estrella" aria-hidden="true">✳</span>
+          <span class="sello-sabor">MUCHO<br /><strong>ANTOJO</strong><br />MUCHO SABOR</span>
+          <img
+            class="hero-fresas"
+            src="img/fresas-con-crema.jpeg"
+            alt="Vaso de fresas con crema de Pikafresa"
+            width="550"
+            height="687"
+            fetchpriority="high"
+          />
+          <img
+            class="hero-elote"
+            src="img/cheelote.jpeg"
+            alt="Cheelote preparado de Pikafresa"
+            width="550"
+            height="687"
+          />
+          <span class="etiqueta-arte">Dulce + picosito = ♡</span>
+          <span class="arte-chispa" aria-hidden="true">✦</span>
+        </div>
+      </section>
+      <div class="cinta-antojos" aria-hidden="true">
+        <span>FRESAS CON CREMA</span> ✳ <span>ELOTES</span> ✳ <span>ESQUITES</span> ✳
+        <span>BEBIDAS</span> ✳ <span>PURO ANTOJO</span>
+      </div>
 
-        <!-- HERO -->
-
-                <section class="hero" id="inicio" aria-labelledby="titulo-hero">
-            <div class="hero-contenido">
-                <p class="pequeno"><span aria-hidden="true">✳</span> AQUÍ SE VIENE A DISFRUTAR</p>
-                <h2 id="titulo-hero">Se antoja.<br>Se pide.<br><span>Se disfruta.</span></h2>
-                <p class="hero-descripcion">Dulce, picosito y como a ti te gusta. Fresas con crema, elotes, esquites y ese antojo que te alegra el día.</p>
-                <a href="#menu" class="boton-menu">Encuentra tu antojo <span aria-hidden="true">↗</span></a>
-                <div class="hero-nota"><span aria-hidden="true">♡</span> Preparado al momento. Hecho a tu gusto.</div>
-                <a class="boton-instagram" href="https://www.instagram.com/pikafresa.official/" target="_blank" rel="noopener noreferrer" aria-label="Síguenos en Instagram: @pikafresa.official (abre en una pestaña nueva)">
-                    <img src="img/instagram.svg" alt="" width="34" height="34">
-                    <span><small>Síguenos en Instagram</small><strong>@pikafresa.official</strong></span>
-                </a>
-            </div>
-            <div class="hero-arte" aria-label="Fresas con crema y cheelote de Pikafresa">
-                <div class="arte-circulo"></div>
-                <span class="arte-estrella" aria-hidden="true">✳</span>
-                <span class="sello-sabor">MUCHO<br><strong>ANTOJO</strong><br>MUCHO SABOR</span>
-                <img class="hero-fresas" src="img/fresas-con-crema.jpeg" alt="Vaso de fresas con crema de Pikafresa" width="550" height="687" fetchpriority="high">
-                <img class="hero-elote" src="img/cheelote.jpeg" alt="Cheelote preparado de Pikafresa" width="550" height="687">
-                <span class="etiqueta-arte">Dulce + picosito = ♡</span>
-                <span class="arte-chispa" aria-hidden="true">✦</span>
-            </div>
-        </section>
-        <div class="cinta-antojos" aria-hidden="true"><span>FRESAS CON CREMA</span> ✳ <span>ELOTES</span> ✳ <span>ESQUITES</span> ✳ <span>BEBIDAS</span> ✳ <span>PURO ANTOJO</span></div>
-
-
-
-        <!-- =========================
+      <!-- =========================
              MENÚ
         ========================== -->
 
-        <section
-            id="menu"
-            class="menu"
-        >
+      <section id="menu" class="menu">
+        <div class="titulo-seccion">
+          <div>
+            <p>ELIGE TU FAVORITO</p>
+            <h2>¿Qué se te <em>antoja?</em></h2>
+          </div>
+          <span class="menu-nota">Tú eliges el antojo.<br />Nosotros le ponemos el sabor.</span>
+        </div>
 
-            <div class="titulo-seccion"><div><p>ELIGE TU FAVORITO</p><h2>¿Qué se te <em>antoja?</em></h2></div><span class="menu-nota">Tú eliges el antojo.<br>Nosotros le ponemos el sabor.</span></div>
+        <!-- CATEGORÍAS -->
 
+        <div class="categorias">
+          <button class="categoria activa" onclick="filtrarProductos('todos', this)">Todos</button>
 
+          <button class="categoria" onclick="filtrarProductos('cremas', this)">Con crema</button>
 
-            <!-- CATEGORÍAS -->
+          <button class="categoria" onclick="filtrarProductos('elotes', this)">Elotes</button>
 
-            <div class="categorias">
+          <button class="categoria" onclick="filtrarProductos('esquites', this)">Esquites</button>
 
-                <button
-                    class="categoria activa"
-                    onclick="filtrarProductos('todos', this)"
-                >
-                    Todos
-                </button>
+          <button class="categoria" onclick="filtrarProductos('bebidas', this)">Bebidas</button>
+        </div>
 
+        <!-- PRODUCTOS GENERADOS POR JS -->
 
-                <button
-                    class="categoria"
-                    onclick="filtrarProductos('cremas', this)"
-                >
-                    Con crema
-                </button>
-
-
-                <button
-                    class="categoria"
-                    onclick="filtrarProductos('elotes', this)"
-                >
-                    Elotes
-                </button>
-
-
-                <button
-                    class="categoria"
-                    onclick="filtrarProductos('esquites', this)"
-                >
-                    Esquites
-                </button>
-
-
-                <button
-                    class="categoria"
-                    onclick="filtrarProductos('bebidas', this)"
-                >
-                    Bebidas
-                </button>
-
-            </div>
-
-
-
-            <!-- PRODUCTOS GENERADOS POR JS -->
-
-            <div
-                id="productos"
-                class="productos"
-            >
-            </div>
-
-        </section>
-
+        <div id="productos" class="productos"></div>
+      </section>
     </main>
-
-
 
     <!-- =========================
          FONDO DEL CARRITO
     ========================== -->
 
-    <div
-        id="fondo-carrito"
-        class="fondo-carrito"
-        onclick="cerrarCarrito()"
-    >
-    </div>
-
-
+    <div id="fondo-carrito" class="fondo-carrito" onclick="cerrarCarrito()"></div>
 
     <!-- =========================
          CARRITO
     ========================== -->
 
-    <aside
-        id="carrito"
-        class="carrito"
-    >
+    <aside id="carrito" class="carrito">
+      <div class="carrito-header">
+        <div>
+          <p>MI PEDIDO</p>
 
-        <div class="carrito-header">
-
-            <div>
-
-                <p>
-                    MI PEDIDO
-                </p>
-
-                <h2>
-                    Tu carrito
-                </h2>
-
-            </div>
-
-
-            <button
-                onclick="cerrarCarrito()"
-                class="cerrar" aria-label="Cerrar carrito"
-            >
-                ✕
-            </button>
-
+          <h2>Tu carrito</h2>
         </div>
 
+        <button onclick="cerrarCarrito()" class="cerrar" aria-label="Cerrar carrito">✕</button>
+      </div>
 
+      <!-- PRODUCTOS DEL CARRITO -->
 
-        <!-- PRODUCTOS DEL CARRITO -->
+      <div id="productos-carrito" class="productos-carrito">
+        <div class="carrito-vacio">
+          <p>Tu carrito está vacío.</p>
 
-        <div
-            id="productos-carrito"
-            class="productos-carrito"
-        >
+          <span> Agrega algo rico del menú 🍓 </span>
+        </div>
+      </div>
 
-            <div class="carrito-vacio">
+      <!-- TOTAL DEL CARRITO -->
 
-                <p>
-                    Tu carrito está vacío.
-                </p>
+      <div class="carrito-footer">
+        <div class="total">
+          <span> Total </span>
 
-                <span>
-                    Agrega algo rico del menú 🍓
-                </span>
-
-            </div>
-
+          <strong id="total"> $0 </strong>
         </div>
 
-
-
-        <!-- TOTAL DEL CARRITO -->
-
-        <div class="carrito-footer">
-
-            <div class="total">
-
-                <span>
-                    Total
-                </span>
-
-                <strong id="total">
-                    $0
-                </strong>
-
-            </div>
-
-
-            <button
-                class="boton-pedido"
-                onclick="realizarPedido()"
-            >
-                Realizar pedido
-            </button>
-
-        </div>
-
+        <button class="boton-pedido" onclick="realizarPedido()">Realizar pedido</button>
+      </div>
     </aside>
-
-
 
     <!-- =========================================
          FONDO MODAL PERSONALIZAR PRODUCTO
     ========================================== -->
 
-    <div
-        id="fondo-modal"
-        class="fondo-modal"
-        onclick="cerrarModal()"
-    >
-    </div>
-
-
+    <div id="fondo-modal" class="fondo-modal" onclick="cerrarModal()"></div>
 
     <!-- =========================================
          MODAL PERSONALIZAR PRODUCTO
     ========================================== -->
 
-    <div
-        id="modal-producto"
-        class="modal-producto"
-    >
+    <div id="modal-producto" class="modal-producto">
+      <!-- CERRAR -->
 
+      <button class="cerrar-modal" aria-label="Cerrar ventana" onclick="cerrarModal()">✕</button>
 
-        <!-- CERRAR -->
+      <!-- PRODUCTO -->
 
-        <button
-            class="cerrar-modal" aria-label="Cerrar ventana"
-            onclick="cerrarModal()"
-        >
-            ✕
-        </button>
+      <div id="modal-emoji" class="modal-emoji">🍓</div>
 
+      <p class="modal-etiqueta">PERSONALIZA TU PEDIDO</p>
 
+      <h2 id="modal-nombre">Producto</h2>
 
-        <!-- PRODUCTO -->
+      <p id="modal-precio-base" class="modal-precio-base">$0</p>
 
-        <div
-            id="modal-emoji"
-            class="modal-emoji"
-        >
-            🍓
-        </div>
-
-
-        <p class="modal-etiqueta">
-            PERSONALIZA TU PEDIDO
-        </p>
-
-
-        <h2 id="modal-nombre">
-            Producto
-        </h2>
-
-
-        <p
-            id="modal-precio-base"
-            class="modal-precio-base"
-        >
-            $0
-        </p>
-
-
-
-        <!-- =====================================
+      <!-- =====================================
              SABRITA INCLUIDA
 
              Solamente aparecerá en:
@@ -326,56 +226,25 @@
              Marranada
         ====================================== -->
 
-        <div
-            id="seccion-sabrita-incluida"
-            class="seccion-extras"
-            style="display: none;"
-        >
+      <div id="seccion-sabrita-incluida" class="seccion-extras" style="display: none">
+        <h3>Elige tu Sabrita</h3>
 
-            <h3>
-                Elige tu Sabrita
-            </h3>
+        <p class="texto-ayuda">Este producto incluye una Sabrita. Elige el sabor que prefieras.</p>
 
+        <div id="lista-sabrita-incluida"></div>
+      </div>
 
-            <p class="texto-ayuda">
-                Este producto incluye una Sabrita.
-                Elige el sabor que prefieras.
-            </p>
-
-
-            <div
-                id="lista-sabrita-incluida"
-            >
-            </div>
-
-        </div>
-
-
-
-        <!-- =====================================
+      <!-- =====================================
              EXTRAS
         ====================================== -->
 
-        <div
-            id="seccion-extras"
-            class="seccion-extras"
-        >
+      <div id="seccion-extras" class="seccion-extras">
+        <h3>¿Quieres agregar algo?</h3>
 
-            <h3>
-                ¿Quieres agregar algo?
-            </h3>
+        <div id="lista-extras"></div>
+      </div>
 
-
-            <div
-                id="lista-extras"
-            >
-            </div>
-
-        </div>
-
-
-
-        <!-- =====================================
+      <!-- =====================================
              SABRITA EXTRA
 
              Esta sección solamente aparecerá
@@ -383,228 +252,215 @@
              "Sabrita".
         ====================================== -->
 
-        <div
-            id="seccion-sabrita-extra"
-            class="seccion-extras"
-            style="display: none;"
-        >
+      <div id="seccion-sabrita-extra" class="seccion-extras" style="display: none">
+        <h3>Elige tu Sabrita extra</h3>
 
-            <h3>
-                Elige tu Sabrita extra
-            </h3>
+        <p class="texto-ayuda">Selecciona el sabor de la Sabrita adicional.</p>
 
+        <div id="lista-sabrita-extra"></div>
+      </div>
 
-            <p class="texto-ayuda">
-                Selecciona el sabor de la
-                Sabrita adicional.
-            </p>
-
-
-            <div
-                id="lista-sabrita-extra"
-            >
-            </div>
-
-        </div>
-
-
-
-        <!-- =====================================
+      <!-- =====================================
              CANTIDAD
         ====================================== -->
 
-        <div class="cantidad-modal">
+      <div class="cantidad-modal">
+        <span> Cantidad </span>
 
-            <span>
-                Cantidad
-            </span>
+        <div class="selector-cantidad">
+          <button type="button" onclick="cambiarCantidadModal(-1)">−</button>
 
+          <strong id="cantidad-modal"> 1 </strong>
 
-            <div class="selector-cantidad">
-
-                <button
-                    type="button"
-                    onclick="cambiarCantidadModal(-1)"
-                >
-                    −
-                </button>
-
-
-                <strong id="cantidad-modal">
-                    1
-                </strong>
-
-
-                <button
-                    type="button"
-                    onclick="cambiarCantidadModal(1)"
-                >
-                    +
-                </button>
-
-            </div>
-
+          <button type="button" onclick="cambiarCantidadModal(1)">+</button>
         </div>
+      </div>
 
-
-
-        <!-- =====================================
+      <!-- =====================================
              TOTAL
         ====================================== -->
 
-        <div class="total-modal">
+      <div class="total-modal">
+        <span> Total </span>
 
-            <span>
-                Total
-            </span>
+        <strong id="total-modal"> $0 </strong>
+      </div>
 
+      <!-- AGREGAR AL CARRITO -->
 
-            <strong id="total-modal">
-                $0
-            </strong>
-
-        </div>
-
-
-
-        <!-- AGREGAR AL CARRITO -->
-
-        <button
-            class="agregar-modal"
-            onclick="confirmarProducto()"
-        >
-            Agregar al pedido
-        </button>
-
-
+      <button class="agregar-modal" onclick="confirmarProducto()">Agregar al pedido</button>
     </div>
 
-<!-- =========================================
+    <!-- =========================================
      MODAL DATOS DEL CLIENTE
 ========================================== -->
 
-<div
-    id="fondo-cliente"
-    class="fondo-modal"
-    onclick="cerrarFormularioCliente()"
-></div>
+    <div id="fondo-cliente" class="fondo-modal" onclick="cerrarFormularioCliente()"></div>
 
-<div
-    id="modal-cliente"
-    class="modal-producto"
->
-
-    <button
-        class="cerrar-modal" aria-label="Cerrar ventana"
-        onclick="cerrarFormularioCliente()"
-    >
+    <div id="modal-cliente" class="modal-producto">
+      <button class="cerrar-modal" aria-label="Cerrar ventana" onclick="cerrarFormularioCliente()">
         ✕
-    </button>
+      </button>
 
-    <p class="modal-etiqueta">
-        FINALIZAR PEDIDO
-    </p>
+      <p class="modal-etiqueta">FINALIZAR PEDIDO</p>
 
-    <h2>Datos del cliente</h2>
+      <h2>Datos del cliente</h2>
 
-    <p class="texto-ayuda">
-        Ingresa tus datos para identificar tu pedido.
-    </p>
+      <p class="texto-ayuda">Ingresa tus datos para identificar tu pedido.</p>
 
+      <div class="campo-formulario">
+        <label for="nombre-cliente"> Nombre </label>
 
-    <div class="campo-formulario">
+        <input type="text" id="nombre-cliente" placeholder="Ej. Nicolás" maxlength="50" />
+      </div>
 
-        <label for="nombre-cliente">
-            Nombre
-        </label>
+      <div class="campo-formulario">
+        <label for="telefono-cliente"> Número de WhatsApp </label>
 
-        <input
-            type="text"
-            id="nombre-cliente"
-            placeholder="Ej. Nicolás"
-            maxlength="50"
-        >
+        <input type="tel" id="telefono-cliente" placeholder="Ej. 9981234567" maxlength="10" />
+      </div>
 
-    </div>
-
-
-    <div class="campo-formulario">
-
-        <label for="telefono-cliente">
-            Número de WhatsApp
-        </label>
-
-        <input
-            type="tel"
-            id="telefono-cliente"
-            placeholder="Ej. 9981234567"
-            maxlength="10"
-        >
-
-    </div>
-
-
-    <div class="resumen-final">
-
+      <div class="resumen-final">
         <span>Total del pedido</span>
 
-        <strong id="total-confirmacion">
-            $0
-        </strong>
+        <strong id="total-confirmacion"> $0 </strong>
+      </div>
 
+      <button class="agregar-modal" onclick="confirmarPedido()">Confirmar pedido</button>
     </div>
-
-
-    <button
-        class="agregar-modal"
-        onclick="confirmarPedido()"
-    >
-        Confirmar pedido
-    </button>
-
-</div>
 
     <!-- =========================
          FOOTER
     ========================== -->
 
-        <section id="como-pedir" class="como-pedir" aria-labelledby="titulo-pedir">
-        <div><p class="eyebrow">ASÍ DE FÁCIL, ASÍ DE RICO</p><h2 id="titulo-pedir">Del antojo<br>al primer bocado.</h2></div>
-        <ol><li><span>01</span><div><h3>Elige algo rico</h3><p>Explora el menú y encuentra tu favorito.</p></div></li><li><span>02</span><div><h3>Ponle tu toque</h3><p>Elige tus extras y la cantidad que quieras.</p></div></li><li><span>03</span><div><h3>Confirma tu pedido</h3><p>Completa tus datos y continúa por WhatsApp.</p></div></li></ol>
+    <section id="como-pedir" class="como-pedir" aria-labelledby="titulo-pedir">
+      <div>
+        <p class="eyebrow">ASÍ DE FÁCIL, ASÍ DE RICO</p>
+        <h2 id="titulo-pedir">Del antojo<br />al primer bocado.</h2>
+      </div>
+      <ol>
+        <li>
+          <span>01</span>
+          <div>
+            <h3>Elige algo rico</h3>
+            <p>Explora el menú y encuentra tu favorito.</p>
+          </div>
+        </li>
+        <li>
+          <span>02</span>
+          <div>
+            <h3>Ponle tu toque</h3>
+            <p>Elige tus extras y la cantidad que quieras.</p>
+          </div>
+        </li>
+        <li>
+          <span>03</span>
+          <div>
+            <h3>Confirma tu pedido</h3>
+            <p>Completa tus datos y continúa por WhatsApp.</p>
+          </div>
+        </li>
+      </ol>
     </section>
     <section id="sucursales" class="sucursales" aria-labelledby="titulo-sucursales">
-        <div class="titulo-seccion"><div><p>TE ESPERAMOS EN CANCÚN</p><h2 id="titulo-sucursales">Dos sucursales.<br>Mucho <em>antojo.</em></h2></div></div>
-        <div class="sucursales-grid">
-            <article class="sucursal">
-                <span class="sucursal-etiqueta">SUCURSAL ORIGINAL</span>
-                <h3>Ruta 5 / Región 93</h3>
-                <address>Av. Miguel Hidalgo, Región 93,<br>Manzana 34, Lote 30.<br>Cancún, Quintana Roo.</address>
-                <p class="sucursal-nota">Encuéntranos sobre la conocida Ruta 5.</p>
-                <div class="sucursal-horario"><strong>Horarios</strong><p>Martes a domingo: 1:00 PM – 9:00 PM</p><p>Lunes: cerrado. Consulta disponibilidad en Instagram.</p></div>
-                <a class="boton-ubicacion" href="https://www.google.com/maps/search/?api=1&query=Av.%20Miguel%20Hidalgo%2C%20Regi%C3%B3n%2093%2C%20Manzana%2034%2C%20Lote%2030%2C%20Canc%C3%BAn%2C%20Quintana%20Roo" target="_blank" rel="noopener noreferrer" aria-label="Abrir ubicación de la sucursal Ruta 5 en Google Maps (pestaña nueva)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar · Ruta 5</a>
-            </article>
-            <article class="sucursal">
-                <span class="sucursal-etiqueta">NUEVA SUCURSAL</span>
-                <h3>Chac Mool</h3>
-                <address>Av. Miguel Hidalgo, Supermanzana 100,<br>Manzana 89, Lote 1, Local 3.<br>Cancún, Quintana Roo.</address>
-                <p class="sucursal-nota">Contamos con mesas para disfrutar tu antojo aquí.</p>
-                <div class="sucursal-horario"><strong>Horarios</strong><p>Martes a domingo: 1:00 PM – 9:00 PM</p></div>
-                <a class="boton-ubicacion" href="https://www.google.com/maps/search/?api=1&query=Av.%20Miguel%20Hidalgo%2C%20Supermanzana%20100%2C%20Manzana%2089%2C%20Lote%201%2C%20Local%203%2C%20Canc%C3%BAn%2C%20Quintana%20Roo" target="_blank" rel="noopener noreferrer" aria-label="Abrir ubicación de la sucursal Chac Mool en Google Maps (pestaña nueva)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar · Chac Mool</a>
-            </article>
+      <div class="titulo-seccion">
+        <div>
+          <p>TE ESPERAMOS EN CANCÚN</p>
+          <h2 id="titulo-sucursales">Dos sucursales.<br />Mucho <em>antojo.</em></h2>
         </div>
+      </div>
+      <div class="sucursales-grid">
+        <article class="sucursal">
+          <span class="sucursal-etiqueta">SUCURSAL ORIGINAL</span>
+          <h3>Ruta 5 / Región 93</h3>
+          <address>
+            Av. Miguel Hidalgo, Región 93,<br />Manzana 34, Lote 30.<br />Cancún, Quintana Roo.
+          </address>
+          <p class="sucursal-nota">Encuéntranos sobre la conocida Ruta 5.</p>
+          <div class="sucursal-horario">
+            <strong>Horarios</strong>
+            <p>Martes a domingo: 1:00 PM – 9:00 PM</p>
+            <p>Lunes: cerrado. Consulta disponibilidad en Instagram.</p>
+          </div>
+          <a
+            class="boton-ubicacion"
+            href="https://www.google.com/maps/search/?api=1&query=Av.%20Miguel%20Hidalgo%2C%20Regi%C3%B3n%2093%2C%20Manzana%2034%2C%20Lote%2030%2C%20Canc%C3%BAn%2C%20Quintana%20Roo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Abrir ubicación de la sucursal Ruta 5 en Google Maps (pestaña nueva)"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Cómo llegar · Ruta 5</a
+          >
+        </article>
+        <article class="sucursal">
+          <span class="sucursal-etiqueta">NUEVA SUCURSAL</span>
+          <h3>Chac Mool</h3>
+          <address>
+            Av. Miguel Hidalgo, Supermanzana 100,<br />Manzana 89, Lote 1, Local 3.<br />Cancún,
+            Quintana Roo.
+          </address>
+          <p class="sucursal-nota">Contamos con mesas para disfrutar tu antojo aquí.</p>
+          <div class="sucursal-horario">
+            <strong>Horarios</strong>
+            <p>Martes a domingo: 1:00 PM – 9:00 PM</p>
+          </div>
+          <a
+            class="boton-ubicacion"
+            href="https://www.google.com/maps/search/?api=1&query=Av.%20Miguel%20Hidalgo%2C%20Supermanzana%20100%2C%20Manzana%2089%2C%20Lote%201%2C%20Local%203%2C%20Canc%C3%BAn%2C%20Quintana%20Roo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Abrir ubicación de la sucursal Chac Mool en Google Maps (pestaña nueva)"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Cómo llegar · Chac Mool</a
+          >
+        </article>
+      </div>
     </section>
-    <footer class="footer-marca"><div><img class="footer-logo" src="img/pikafresa-logo.jpg" alt="Pika Fresa" width="499" height="400" loading="lazy"><p>Un poquito de pika. Mucho que disfrutar.</p></div><a href="#menu">Que no se quede en antojo ↗</a><a class="footer-sucursales" href="#sucursales">Encuentra tu sucursal ↗</a><div class="footer-base"><span>Hecho con cariño y mucho sabor.</span><span>DULCE, PICOSITO Y COMO A TI TE GUSTA.</span></div></footer>
-
-
+    <footer class="footer-marca">
+      <div>
+        <img
+          class="footer-logo"
+          src="img/pikafresa-logo.jpg"
+          alt="Pika Fresa"
+          width="499"
+          height="400"
+          loading="lazy"
+        />
+        <p>Un poquito de pika. Mucho que disfrutar.</p>
+      </div>
+      <a href="#menu">Que no se quede en antojo ↗</a
+      ><a class="footer-sucursales" href="#sucursales">Encuentra tu sucursal ↗</a>
+      <div class="footer-base">
+        <span>Hecho con cariño y mucho sabor.</span
+        ><span>DULCE, PICOSITO Y COMO A TI TE GUSTA.</span>
+      </div>
+    </footer>
 
     <!-- =========================
          JAVASCRIPT
     ========================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
     <script src="js/app.js"></script>
     <script src="js/animaciones.js"></script>
-
-</body>
-
+  </body>
 </html>

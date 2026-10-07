@@ -1,44 +1,17 @@
-/* =========================================
-   CONEXIÓN CON SUPABASE
-========================================= */
-
-const SUPABASE_URL =
-    "https://qhhqiwhcbbnncnaonahc.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_iasGk-jqhvZFQLiRTPacqw_zNXpKtbO";
-
-const supabaseCliente =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-    
-/* =========================================
-   PRODUCTOS
-========================================= */
+// PRODUCTOS
 
 let productos = [];
 
-
-/* =========================================
-   EXTRAS
-========================================= */
+// EXTRAS
 
 let extrasCremas = [];
 let extrasElotes = [];
 
-
-/* =========================================
-   SABRITAS
-========================================= */
+// SABRITAS
 
 let saboresSabritas = [];
 
-
-/* =========================================
-   VARIABLES
-========================================= */
+// VARIABLES
 
 let carrito = [];
 
@@ -47,195 +20,124 @@ let productoSeleccionado = null;
 let cantidadSeleccionada = 1;
 
 async function cargarProductosDesdeSupabase() {
+  const { data, error } = await supabaseCliente
+    .from("productos")
+    .select("*")
+    .eq("disponible", true)
+    .order("id");
 
-    const { data, error } =
-        await supabaseCliente
-            .from("productos")
-            .select("*")
-            .eq("disponible", true)
-            .order("id");
+  if (error) {
+    console.error("Error cargando productos:", error);
 
-
-    if (error) {
-
-        console.error(
-            "Error cargando productos:",
-            error
-        );
-
-        document.getElementById(
-            "productos"
-        ).innerHTML = `
+    document.getElementById("productos").innerHTML = `
             <p>
                 No se pudo cargar el menú.
                 Intenta nuevamente.
             </p>
         `;
 
-        return;
-    }
+    return;
+  }
 
+  productos = data.map((producto) => {
+    return {
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: Number(producto.precio),
+      categoria: producto.categoria,
+      incluyeSabrita: producto.incluye_sabrita,
+      permiteExtras: producto.permite_extras,
+    };
+  });
 
-    productos = data.map(producto => {
-
-        let emoji = "🍽️";
-
-
-        if (producto.categoria === "cremas") {
-            emoji = "🍓";
-        }
-
-        if (producto.categoria === "elotes") {
-            emoji = "🌽";
-        }
-
-        if (producto.categoria === "esquites") {
-            emoji = "🥣";
-        }
-
-        if (producto.categoria === "bebidas") {
-            emoji = "🥤";
-        }
-
-
-        return {
-    id: producto.id,
-    nombre: producto.nombre,
-    precio: Number(producto.precio),
-    categoria: producto.categoria,
-    emoji,
-    incluyeSabrita: producto.incluye_sabrita,
-    permiteExtras: producto.permite_extras
-};
-
-    });
-
-
-    mostrarProductos(productos);
-
+  mostrarProductos(productos);
 }
 
 async function cargarExtrasDesdeSupabase() {
+  const { data, error } = await supabaseCliente
+    .from("extras")
+    .select("*")
+    .eq("disponible", true)
+    .order("id");
 
-    const { data, error } =
-        await supabaseCliente
-            .from("extras")
-            .select("*")
-            .eq("disponible", true)
-            .order("id");
+  if (error) {
+    console.error("Error cargando extras:", error);
 
+    return;
+  }
 
-    if (error) {
+  extrasCremas = data
+    .filter((extra) => extra.categoria === "cremas")
+    .map((extra) => ({
+      nombre: extra.nombre,
+      precio: Number(extra.precio),
+    }));
 
-        console.error(
-            "Error cargando extras:",
-            error
-        );
-
-        return;
-    }
-
-
-    extrasCremas = data
-        .filter(extra =>
-            extra.categoria === "cremas"
-        )
-        .map(extra => ({
-            nombre: extra.nombre,
-            precio: Number(extra.precio)
-        }));
-
-
-    extrasElotes = data
-        .filter(extra =>
-            extra.categoria === "elotes"
-        )
-        .map(extra => ({
-            nombre: extra.nombre,
-            precio: Number(extra.precio)
-        }));
-
-
-    console.log(
-        "Extras cargados:",
-        extrasCremas,
-        extrasElotes
-    );
-
+  extrasElotes = data
+    .filter((extra) => extra.categoria === "elotes")
+    .map((extra) => ({
+      nombre: extra.nombre,
+      precio: Number(extra.precio),
+    }));
 }
 
 async function cargarSabritasDesdeSupabase() {
+  const { data, error } = await supabaseCliente.from("sabores_sabritas").select("*").order("id");
 
-    const { data, error } =
-        await supabaseCliente
-            .from("sabores_sabritas")
-            .select("*")
-            .order("id");
+  if (error) {
+    console.error("Error cargando sabores de Sabritas:", error);
 
+    return;
+  }
 
-    if (error) {
+  saboresSabritas = data.map((sabor) => ({
+    id: sabor.id,
 
-        console.error(
-            "Error cargando sabores de Sabritas:",
-            error
-        );
+    nombre: sabor.nombre,
 
-        return;
-    }
-
-
-    saboresSabritas = data.map(sabor => ({
-
-        id: sabor.id,
-
-        nombre: sabor.nombre,
-
-        disponible: sabor.disponible
-
-    }));
-
-
-    console.log(
-        "Sabritas cargadas:",
-        saboresSabritas
-    );
-
+    disponible: sabor.disponible,
+  }));
 }
 
-/* =========================================
-   MOSTRAR PRODUCTOS
-========================================= */
+// MOSTRAR PRODUCTOS
 
 function fotoProducto(producto) {
-    const nombre = producto.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    if (nombre.includes("grenuda")) return "grenuda.png";
-    if (nombre.includes("marranada")) return "marranada.jpeg";
-    if (nombre.includes("atascado")) return "atascado.jpeg";
-    if (nombre.includes("cheelote")) return "cheelote.jpeg";
-    if (nombre.includes("esquite")) return "esquite.jpeg";
-    if (nombre.includes("fresa") && producto.categoria === "cremas") return "fresas-con-crema.jpeg";
-    if (nombre.includes("pepsi")) return "pepsi.png";
-    return null;
+  const nombre = producto.nombre
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  if (nombre.includes("grenuda")) return "grenuda.png";
+  if (nombre.includes("marranada")) return "marranada.jpeg";
+  if (nombre.includes("atascado")) return "atascado.jpeg";
+  if (nombre.includes("cheelote")) return "cheelote.jpeg";
+  if (nombre.includes("esquite")) return "esquite.jpeg";
+  if (nombre.includes("fresa") && producto.categoria === "cremas") return "fresas-con-crema.jpeg";
+  if (nombre.includes("pepsi")) return "pepsi.png";
+  return null;
 }
 
 function imagenProducto(producto) {
-    const foto = fotoProducto(producto);
-    const categoria = ["cremas", "elotes", "esquites", "bebidas"].includes(producto.categoria) ? producto.categoria : "elotes";
-    const clase = foto ? "foto-producto foto-" + foto.split(".")[0] : "ilustracion-producto";
-    return '<img class="' + clase + '" src="img/' + (foto || "antojo-" + categoria + ".svg") + '" alt="" loading="lazy" width="550" height="687">';
+  const foto = fotoProducto(producto);
+  const categoria = ["cremas", "elotes", "esquites", "bebidas"].includes(producto.categoria)
+    ? producto.categoria
+    : "elotes";
+  const clase = foto ? "foto-producto foto-" + foto.split(".")[0] : "ilustracion-producto";
+  return (
+    '<img class="' +
+    clase +
+    '" src="img/' +
+    (foto || "antojo-" + categoria + ".svg") +
+    '" alt="" loading="lazy" width="550" height="687">'
+  );
 }
 
 function mostrarProductos(lista) {
+  const contenedor = document.getElementById("productos");
 
-    const contenedor =
-        document.getElementById("productos");
+  contenedor.innerHTML = "";
 
-    contenedor.innerHTML = "";
-
-
-    lista.forEach(producto => {
-
-        contenedor.innerHTML += `
+  lista.forEach((producto) => {
+    contenedor.innerHTML += `
 
             <article class="producto">
 
@@ -277,217 +179,109 @@ function mostrarProductos(lista) {
             </article>
 
         `;
-
-    });
-
+  });
 }
 
-
-/* =========================================
-   FILTRAR PRODUCTOS
-========================================= */
+// FILTRAR PRODUCTOS
 
 function filtrarProductos(categoria, boton) {
+  document.querySelectorAll(".categoria").forEach((botonCategoria) => {
+    botonCategoria.classList.remove("activa");
+  });
 
-    document
-        .querySelectorAll(".categoria")
-        .forEach(botonCategoria => {
+  boton.classList.add("activa");
 
-            botonCategoria.classList.remove("activa");
+  if (categoria === "todos") {
+    mostrarProductos(productos);
 
-        });
+    return;
+  }
 
+  const productosFiltrados = productos.filter((producto) => producto.categoria === categoria);
 
-    boton.classList.add("activa");
-
-
-    if (categoria === "todos") {
-
-        mostrarProductos(productos);
-
-        return;
-
-    }
-
-
-    const productosFiltrados =
-        productos.filter(
-
-            producto =>
-                producto.categoria === categoria
-
-        );
-
-
-    mostrarProductos(productosFiltrados);
-
+  mostrarProductos(productosFiltrados);
 }
 
-
-/* =========================================
-   ABRIR PRODUCTO
-========================================= */
+// ABRIR PRODUCTO
 
 function abrirProducto(id) {
+  productoSeleccionado = productos.find((producto) => producto.id === id);
 
-    productoSeleccionado =
-        productos.find(
-            producto =>
-                producto.id === id
-        );
+  if (!productoSeleccionado) {
+    return;
+  }
 
+  cantidadSeleccionada = 1;
 
-    if (!productoSeleccionado) {
-        return;
-    }
+  document.getElementById("modal-emoji").innerHTML = imagenProducto(productoSeleccionado);
 
+  document.getElementById("modal-nombre").textContent = productoSeleccionado.nombre;
 
-    cantidadSeleccionada = 1;
+  document.getElementById("modal-precio-base").textContent = `$${productoSeleccionado.precio}`;
 
+  document.getElementById("cantidad-modal").textContent = 1;
 
-    document.getElementById(
-        "modal-emoji"
-    ).innerHTML =
-        imagenProducto(productoSeleccionado);
+  // EXTRAS
+  const seccionExtras = document.getElementById("seccion-extras");
 
+  if (productoSeleccionado.permiteExtras === false) {
+    // Este producto NO permite extras
 
-    document.getElementById(
-        "modal-nombre"
-    ).textContent =
-        productoSeleccionado.nombre;
+    seccionExtras.style.display = "none";
 
+    document.getElementById("lista-extras").innerHTML = "";
+  } else {
+    // Este producto SÍ permite extras
 
-    document.getElementById(
-        "modal-precio-base"
-    ).textContent =
-        `$${productoSeleccionado.precio}`;
+    seccionExtras.style.display = "block";
 
+    cargarExtras();
+  }
 
-    document.getElementById(
-        "cantidad-modal"
-    ).textContent = 1;
+  // SABRITAS
+  configurarSabritas();
 
+  // CALCULAR TOTAL
+  calcularTotalModal();
 
-    // ======================================
-    // EXTRAS
-    // ======================================
+  // ABRIR MODAL
+  document.getElementById("fondo-modal").classList.add("visible");
 
-    const seccionExtras =
-        document.getElementById(
-            "seccion-extras"
-        );
-
-
-    if (
-        productoSeleccionado.permiteExtras === false
-    ) {
-
-        // Este producto NO permite extras
-
-        seccionExtras.style.display = "none";
-
-        document.getElementById(
-            "lista-extras"
-        ).innerHTML = "";
-
-    } else {
-
-        // Este producto SÍ permite extras
-
-        seccionExtras.style.display = "block";
-
-        cargarExtras();
-
-    }
-
-
-    // ======================================
-    // SABRITAS
-    // ======================================
-
-    configurarSabritas();
-
-
-    // ======================================
-    // CALCULAR TOTAL
-    // ======================================
-
-    calcularTotalModal();
-
-
-    // ======================================
-    // ABRIR MODAL
-    // ======================================
-
-    document
-        .getElementById("fondo-modal")
-        .classList.add("visible");
-
-
-    document
-        .getElementById("modal-producto")
-        .classList.add("visible");
-
+  document.getElementById("modal-producto").classList.add("visible");
 }
 
-
-/* =========================================
-   CARGAR EXTRAS
-========================================= */
+// CARGAR EXTRAS
 
 function cargarExtras() {
+  const lista = document.getElementById("lista-extras");
 
-    const lista =
-        document.getElementById("lista-extras");
+  const seccion = document.getElementById("seccion-extras");
 
+  lista.innerHTML = "";
 
-    const seccion =
-        document.getElementById("seccion-extras");
+  let extras = [];
 
+  if (productoSeleccionado.categoria === "cremas") {
+    extras = extrasCremas;
+  }
 
-    lista.innerHTML = "";
+  if (productoSeleccionado.categoria === "elotes") {
+    extras = extrasElotes;
+  }
 
+  if (extras.length === 0) {
+    seccion.style.display = "none";
 
-    let extras = [];
+    return;
+  }
 
+  seccion.style.display = "block";
+
+  extras.forEach((extra) => {
+    // CREMAS SOLO UN EXTRA
 
     if (productoSeleccionado.categoria === "cremas") {
-
-        extras = extrasCremas;
-
-    }
-
-
-    if (productoSeleccionado.categoria === "elotes") {
-
-        extras = extrasElotes;
-
-    }
-
-
-    if (extras.length === 0) {
-
-        seccion.style.display = "none";
-
-        return;
-
-    }
-
-
-    seccion.style.display = "block";
-
-
-    extras.forEach(extra => {
-
-
-        /* =========================
-           CREMAS
-           SOLO UN EXTRA
-        ========================= */
-
-        if (productoSeleccionado.categoria === "cremas") {
-
-            lista.innerHTML += `
+      lista.innerHTML += `
 
                 <label class="extra-opcion">
 
@@ -516,18 +310,12 @@ function cargarExtras() {
                 </label>
 
             `;
+    }
 
-        }
+    // ELOTES VARIOS EXTRAS
 
-
-        /* =========================
-           ELOTES
-           VARIOS EXTRAS
-        ========================= */
-
-        if (productoSeleccionado.categoria === "elotes") {
-
-            lista.innerHTML += `
+    if (productoSeleccionado.categoria === "elotes") {
+      lista.innerHTML += `
 
                 <label class="extra-opcion">
 
@@ -555,114 +343,54 @@ function cargarExtras() {
                 </label>
 
             `;
-
-        }
-
-    });
-
+    }
+  });
 }
 
-
-/* =========================================
-   CAMBIO DE EXTRA
-========================================= */
+// CAMBIO DE EXTRA
 
 function cambioExtra() {
+  calcularTotalModal();
 
-    calcularTotalModal();
+  const seccionSabritaExtra = document.getElementById("seccion-sabrita-extra");
 
+  const checkboxSabrita = Array.from(document.querySelectorAll(".extra-checkbox")).find(
+    (extra) => extra.dataset.nombre === "Sabrita",
+  );
 
-    const seccionSabritaExtra =
-        document.getElementById(
-            "seccion-sabrita-extra"
-        );
-
-
-    const checkboxSabrita =
-        Array.from(
-
-            document.querySelectorAll(
-                ".extra-checkbox"
-            )
-
-        ).find(
-
-            extra =>
-                extra.dataset.nombre === "Sabrita"
-
-        );
-
-
-    /*
+  /*
         Si seleccionó el extra Sabrita,
         mostramos los sabores.
     */
 
-    if (
-        checkboxSabrita &&
-        checkboxSabrita.checked
-    ) {
+  if (checkboxSabrita && checkboxSabrita.checked) {
+    seccionSabritaExtra.style.display = "block";
 
-        seccionSabritaExtra.style.display =
-            "block";
+    cargarSabritas("lista-sabrita-extra", "sabrita-extra");
+  } else {
+    seccionSabritaExtra.style.display = "none";
 
-
-        cargarSabritas(
-            "lista-sabrita-extra",
-            "sabrita-extra"
-        );
-
-    } else {
-
-        seccionSabritaExtra.style.display =
-            "none";
-
-
-        document.getElementById(
-            "lista-sabrita-extra"
-        ).innerHTML = "";
-
-    }
-
+    document.getElementById("lista-sabrita-extra").innerHTML = "";
+  }
 }
 
+// CARGAR SABRITAS
 
-/* =========================================
-   CARGAR SABRITAS
-========================================= */
+function cargarSabritas(contenedorId, nombreRadio) {
+  const contenedor = document.getElementById(contenedorId);
 
-function cargarSabritas(
-    contenedorId,
-    nombreRadio
-) {
+  contenedor.innerHTML = "";
 
-    const contenedor =
-        document.getElementById(contenedorId);
+  saboresSabritas.forEach((sabrita) => {
+    const label = document.createElement("label");
 
+    if (sabrita.disponible) {
+      label.className = "extra-opcion";
+    } else {
+      label.className = "extra-opcion sabrita-agotada";
+    }
 
-    contenedor.innerHTML = "";
-
-
-    saboresSabritas.forEach(sabrita => {
-
-        const label =
-            document.createElement("label");
-
-
-        if (sabrita.disponible) {
-
-            label.className =
-                "extra-opcion";
-
-        } else {
-
-            label.className =
-                "extra-opcion sabrita-agotada";
-
-        }
-
-
-        label.innerHTML = `
+    label.innerHTML = `
 
             <div class="extra-info">
 
@@ -681,11 +409,9 @@ function cargarSabritas(
 
 
             ${
-                sabrita.disponible
-
-                    ? ""
-
-                    : `
+              sabrita.disponible
+                ? ""
+                : `
                         <small class="etiqueta-agotado">
                             AGOTADO
                         </small>
@@ -694,427 +420,216 @@ function cargarSabritas(
 
         `;
 
-
-        contenedor.appendChild(label);
-
-    });
-
+    contenedor.appendChild(label);
+  });
 }
 
-
-/* =========================================
-   CONFIGURAR SABRITA INCLUIDA
-========================================= */
+// CONFIGURAR SABRITA INCLUIDA
 
 function configurarSabritas() {
+  const seccionIncluida = document.getElementById("seccion-sabrita-incluida");
 
-    const seccionIncluida =
-        document.getElementById(
-            "seccion-sabrita-incluida"
-        );
+  const seccionExtra = document.getElementById("seccion-sabrita-extra");
 
+  seccionIncluida.style.display = "none";
 
-    const seccionExtra =
-        document.getElementById(
-            "seccion-sabrita-extra"
-        );
+  seccionExtra.style.display = "none";
 
+  document.getElementById("lista-sabrita-incluida").innerHTML = "";
 
-    seccionIncluida.style.display =
-        "none";
+  document.getElementById("lista-sabrita-extra").innerHTML = "";
 
-
-    seccionExtra.style.display =
-        "none";
-
-
-    document.getElementById(
-        "lista-sabrita-incluida"
-    ).innerHTML = "";
-
-
-    document.getElementById(
-        "lista-sabrita-extra"
-    ).innerHTML = "";
-
-
-    /*
+  /*
         Solamente aparece si el producto
         tiene incluyeSabrita: true
     */
 
-    if (
-        productoSeleccionado.incluyeSabrita === true
-    ) {
+  if (productoSeleccionado.incluyeSabrita === true) {
+    seccionIncluida.style.display = "block";
 
-        seccionIncluida.style.display =
-            "block";
-
-
-        cargarSabritas(
-            "lista-sabrita-incluida",
-            "sabrita-incluida"
-        );
-
-    }
-
+    cargarSabritas("lista-sabrita-incluida", "sabrita-incluida");
+  }
 }
 
-
-/* =========================================
-   CAMBIAR CANTIDAD DEL MODAL
-========================================= */
+// CAMBIAR CANTIDAD DEL MODAL
 
 function cambiarCantidadModal(cambio) {
+  cantidadSeleccionada += cambio;
 
-    cantidadSeleccionada += cambio;
+  if (cantidadSeleccionada < 1) {
+    cantidadSeleccionada = 1;
+  }
 
+  document.getElementById("cantidad-modal").textContent = cantidadSeleccionada;
 
-    if (cantidadSeleccionada < 1) {
-
-        cantidadSeleccionada = 1;
-
-    }
-
-
-    document.getElementById(
-        "cantidad-modal"
-    ).textContent =
-        cantidadSeleccionada;
-
-
-    calcularTotalModal();
-
+  calcularTotalModal();
 }
 
-
-/* =========================================
-   OBTENER EXTRAS SELECCIONADOS
-========================================= */
+// OBTENER EXTRAS SELECCIONADOS
 
 function obtenerExtrasSeleccionados() {
+  const extras = [];
 
-    const extras = [];
+  /* EXTRA DE CREMAS */
 
+  const extraCrema = document.querySelector(".extra-radio:checked");
 
-    /* EXTRA DE CREMAS */
+  if (extraCrema) {
+    extras.push({
+      nombre: extraCrema.dataset.nombre,
 
-    const extraCrema =
-        document.querySelector(
-            ".extra-radio:checked"
-        );
-
-
-    if (extraCrema) {
-
-        extras.push({
-
-            nombre:
-                extraCrema.dataset.nombre,
-
-            precio:
-                Number(
-                    extraCrema.dataset.precio
-                )
-
-        });
-
-    }
-
-
-    /* EXTRAS DE ELOTES */
-
-    const extrasElote =
-        document.querySelectorAll(
-            ".extra-checkbox:checked"
-        );
-
-
-    extrasElote.forEach(extra => {
-
-        extras.push({
-
-            nombre:
-                extra.dataset.nombre,
-
-            precio:
-                Number(
-                    extra.dataset.precio
-                )
-
-        });
-
+      precio: Number(extraCrema.dataset.precio),
     });
+  }
 
+  /* EXTRAS DE ELOTES */
 
-    return extras;
+  const extrasElote = document.querySelectorAll(".extra-checkbox:checked");
 
+  extrasElote.forEach((extra) => {
+    extras.push({
+      nombre: extra.dataset.nombre,
+
+      precio: Number(extra.dataset.precio),
+    });
+  });
+
+  return extras;
 }
 
-
-/* =========================================
-   CALCULAR TOTAL DEL MODAL
-========================================= */
+// CALCULAR TOTAL DEL MODAL
 
 function calcularTotalModal() {
+  if (!productoSeleccionado) {
+    return;
+  }
 
-    if (!productoSeleccionado) {
+  const extras = obtenerExtrasSeleccionados();
 
-        return;
+  const totalExtras = extras.reduce(
+    (total, extra) => total + extra.precio,
 
-    }
+    0,
+  );
 
+  const precioUnidad = productoSeleccionado.precio + totalExtras;
 
-    const extras =
-        obtenerExtrasSeleccionados();
+  const total = precioUnidad * cantidadSeleccionada;
 
-
-    const totalExtras =
-        extras.reduce(
-
-            (total, extra) =>
-                total + extra.precio,
-
-            0
-
-        );
-
-
-    const precioUnidad =
-        productoSeleccionado.precio +
-        totalExtras;
-
-
-    const total =
-        precioUnidad *
-        cantidadSeleccionada;
-
-
-    document.getElementById(
-        "total-modal"
-    ).textContent =
-        `$${total}`;
-
+  document.getElementById("total-modal").textContent = `$${total}`;
 }
 
-
-/* =========================================
-   CONFIRMAR PRODUCTO
-========================================= */
+// CONFIRMAR PRODUCTO
 
 function confirmarProducto() {
+  if (!productoSeleccionado) {
+    return;
+  }
 
-    if (!productoSeleccionado) {
+  // SABRITA INCLUIDA
 
-        return;
+  let sabritaIncluida = null;
 
+  if (productoSeleccionado.incluyeSabrita === true) {
+    const seleccionIncluida = document.querySelector('input[name="sabrita-incluida"]:checked');
+
+    if (!seleccionIncluida) {
+      alert("Selecciona el sabor de la Sabrita incluida.");
+
+      return;
     }
 
+    sabritaIncluida = seleccionIncluida.value;
+  }
 
-    /* ================================
-       SABRITA INCLUIDA
-    ================================= */
+  // EXTRAS
 
-    let sabritaIncluida = null;
+  const extras = obtenerExtrasSeleccionados();
 
+  // REVISAR SI PIDIÓ SABRITA EXTRA
 
-    if (
-        productoSeleccionado.incluyeSabrita === true
-    ) {
+  const tieneSabritaExtra = extras.some((extra) => extra.nombre === "Sabrita");
 
-        const seleccionIncluida =
-            document.querySelector(
-                'input[name="sabrita-incluida"]:checked'
-            );
+  let sabritaExtra = null;
 
+  if (tieneSabritaExtra) {
+    const seleccionExtra = document.querySelector('input[name="sabrita-extra"]:checked');
 
-        if (!seleccionIncluida) {
+    if (!seleccionExtra) {
+      alert("Selecciona el sabor de la Sabrita extra.");
 
-            alert(
-                "Selecciona el sabor de la Sabrita incluida."
-            );
-
-            return;
-
-        }
-
-
-        sabritaIncluida =
-            seleccionIncluida.value;
-
+      return;
     }
 
+    sabritaExtra = seleccionExtra.value;
+  }
 
-    /* ================================
-       EXTRAS
-    ================================= */
+  // CALCULAR PRECIO
 
-    const extras =
-        obtenerExtrasSeleccionados();
+  const totalExtras = extras.reduce(
+    (total, extra) => total + extra.precio,
 
+    0,
+  );
 
-    /* ================================
-       REVISAR SI PIDIÓ SABRITA EXTRA
-    ================================= */
+  const precioUnidad = productoSeleccionado.precio + totalExtras;
 
-    const tieneSabritaExtra =
-        extras.some(
+  // GUARDAR EN CARRITO
 
-            extra =>
-                extra.nombre === "Sabrita"
+  carrito.push({
+    idCarrito: Date.now() + Math.floor(Math.random() * 1000),
 
-        );
+    id: productoSeleccionado.id,
 
+    nombre: productoSeleccionado.nombre,
 
-    let sabritaExtra = null;
+    precioBase: productoSeleccionado.precio,
 
+    precio: precioUnidad,
 
-    if (tieneSabritaExtra) {
+    cantidad: cantidadSeleccionada,
 
-        const seleccionExtra =
-            document.querySelector(
-                'input[name="sabrita-extra"]:checked'
-            );
+    extras: extras,
 
+    sabritaIncluida: sabritaIncluida,
 
-        if (!seleccionExtra) {
+    sabritaExtra: sabritaExtra,
+  });
 
-            alert(
-                "Selecciona el sabor de la Sabrita extra."
-            );
+  actualizarCarrito();
 
-            return;
+  cerrarModal();
 
-        }
-
-
-        sabritaExtra =
-            seleccionExtra.value;
-
-    }
-
-
-    /* ================================
-       CALCULAR PRECIO
-    ================================= */
-
-    const totalExtras =
-        extras.reduce(
-
-            (total, extra) =>
-                total + extra.precio,
-
-            0
-
-        );
-
-
-    const precioUnidad =
-        productoSeleccionado.precio +
-        totalExtras;
-
-
-    /* ================================
-       GUARDAR EN CARRITO
-    ================================= */
-
-    carrito.push({
-
-        idCarrito:
-            Date.now() +
-            Math.floor(Math.random() * 1000),
-
-        id:
-            productoSeleccionado.id,
-
-        nombre:
-            productoSeleccionado.nombre,
-
-        precioBase:
-            productoSeleccionado.precio,
-
-        precio:
-            precioUnidad,
-
-        cantidad:
-            cantidadSeleccionada,
-
-        extras:
-            extras,
-
-        sabritaIncluida:
-            sabritaIncluida,
-
-        sabritaExtra:
-            sabritaExtra
-
-    });
-
-
-    actualizarCarrito();
-
-    cerrarModal();
-
-    mostrarCarrito();
-
+  mostrarCarrito();
 }
 
-
-/* =========================================
-   CERRAR MODAL
-========================================= */
+// CERRAR MODAL
 
 function cerrarModal() {
+  document.getElementById("fondo-modal").classList.remove("visible");
 
-    document
-        .getElementById("fondo-modal")
-        .classList.remove("visible");
+  document.getElementById("modal-producto").classList.remove("visible");
 
+  productoSeleccionado = null;
 
-    document
-        .getElementById("modal-producto")
-        .classList.remove("visible");
-
-
-    productoSeleccionado = null;
-
-    cantidadSeleccionada = 1;
-
+  cantidadSeleccionada = 1;
 }
 
-
-/* =========================================
-   ACTUALIZAR CARRITO
-========================================= */
+// ACTUALIZAR CARRITO
 
 function actualizarCarrito() {
+  const contenedor = document.getElementById("productos-carrito");
 
-    const contenedor =
-        document.getElementById(
-            "productos-carrito"
-        );
+  const contador = document.getElementById("contador-carrito");
 
+  const totalElemento = document.getElementById("total");
 
-    const contador =
-        document.getElementById(
-            "contador-carrito"
-        );
+  contenedor.innerHTML = "";
 
+  /* CARRITO VACÍO */
 
-    const totalElemento =
-        document.getElementById(
-            "total"
-        );
-
-
-    contenedor.innerHTML = "";
-
-
-    /* CARRITO VACÍO */
-
-    if (carrito.length === 0) {
-
-        contenedor.innerHTML = `
+  if (carrito.length === 0) {
+    contenedor.innerHTML = `
 
             <div class="carrito-vacio">
 
@@ -1129,22 +644,17 @@ function actualizarCarrito() {
             </div>
 
         `;
+  }
 
-    }
+  /* MOSTRAR PRODUCTOS */
 
+  carrito.forEach((producto) => {
+    let detalles = "";
 
-    /* MOSTRAR PRODUCTOS */
+    /* SABRITA INCLUIDA */
 
-    carrito.forEach(producto => {
-
-        let detalles = "";
-
-
-        /* SABRITA INCLUIDA */
-
-        if (producto.sabritaIncluida) {
-
-            detalles += `
+    if (producto.sabritaIncluida) {
+      detalles += `
 
                 <span>
                     Sabrita incluida:
@@ -1154,20 +664,13 @@ function actualizarCarrito() {
                 <br>
 
             `;
+    }
 
-        }
+    /* EXTRAS */
 
-
-        /* EXTRAS */
-
-        if (
-            producto.extras &&
-            producto.extras.length > 0
-        ) {
-
-            producto.extras.forEach(extra => {
-
-                detalles += `
+    if (producto.extras && producto.extras.length > 0) {
+      producto.extras.forEach((extra) => {
+        detalles += `
 
                     <span>
                         + ${extra.nombre}
@@ -1177,17 +680,13 @@ function actualizarCarrito() {
                     <br>
 
                 `;
+      });
+    }
 
-            });
+    /* SABRITA EXTRA */
 
-        }
-
-
-        /* SABRITA EXTRA */
-
-        if (producto.sabritaExtra) {
-
-            detalles += `
+    if (producto.sabritaExtra) {
+      detalles += `
 
                 <span>
                     Sabor Sabrita extra:
@@ -1197,11 +696,9 @@ function actualizarCarrito() {
                 <br>
 
             `;
+    }
 
-        }
-
-
-        contenedor.innerHTML += `
+    contenedor.innerHTML += `
 
             <div class="item-carrito">
 
@@ -1255,472 +752,241 @@ function actualizarCarrito() {
             </div>
 
         `;
+  });
 
-    });
+  /* CANTIDAD TOTAL */
 
+  const cantidadTotal = carrito.reduce(
+    (total, producto) => total + producto.cantidad,
 
-    /* CANTIDAD TOTAL */
+    0,
+  );
 
-    const cantidadTotal =
-        carrito.reduce(
+  /* PRECIO TOTAL */
 
-            (total, producto) =>
-                total + producto.cantidad,
+  const total = carrito.reduce(
+    (total, producto) => total + producto.precio * producto.cantidad,
 
-            0
+    0,
+  );
 
-        );
+  contador.textContent = cantidadTotal;
 
-
-    /* PRECIO TOTAL */
-
-    const total =
-        carrito.reduce(
-
-            (total, producto) =>
-
-                total +
-                (
-                    producto.precio *
-                    producto.cantidad
-                ),
-
-            0
-
-        );
-
-
-    contador.textContent =
-        cantidadTotal;
-
-
-    totalElemento.textContent =
-        `$${total}`;
-
+  totalElemento.textContent = `$${total}`;
 }
 
+// CAMBIAR CANTIDAD EN CARRITO
 
-/* =========================================
-   CAMBIAR CANTIDAD EN CARRITO
-========================================= */
+function cambiarCantidadCarrito(idCarrito, cambio) {
+  const producto = carrito.find((producto) => producto.idCarrito === idCarrito);
 
-function cambiarCantidadCarrito(
-    idCarrito,
-    cambio
-) {
+  if (!producto) {
+    return;
+  }
 
-    const producto =
-        carrito.find(
+  producto.cantidad += cambio;
 
-            producto =>
-                producto.idCarrito === idCarrito
+  if (producto.cantidad <= 0) {
+    carrito = carrito.filter((producto) => producto.idCarrito !== idCarrito);
+  }
 
-        );
-
-
-    if (!producto) {
-
-        return;
-
-    }
-
-
-    producto.cantidad += cambio;
-
-
-    if (producto.cantidad <= 0) {
-
-        carrito =
-            carrito.filter(
-
-                producto =>
-                    producto.idCarrito !== idCarrito
-
-            );
-
-    }
-
-
-    actualizarCarrito();
-
+  actualizarCarrito();
 }
 
-
-/* =========================================
-   MOSTRAR CARRITO
-========================================= */
+// MOSTRAR CARRITO
 
 function mostrarCarrito() {
+  document.getElementById("carrito").classList.add("visible");
 
-    document
-        .getElementById("carrito")
-        .classList.add("visible");
-
-
-    document
-        .getElementById("fondo-carrito")
-        .classList.add("visible");
-
+  document.getElementById("fondo-carrito").classList.add("visible");
 }
 
-
-/* =========================================
-   CERRAR CARRITO
-========================================= */
+// CERRAR CARRITO
 
 function cerrarCarrito() {
+  document.getElementById("carrito").classList.remove("visible");
 
-    document
-        .getElementById("carrito")
-        .classList.remove("visible");
-
-
-    document
-        .getElementById("fondo-carrito")
-        .classList.remove("visible");
-
+  document.getElementById("fondo-carrito").classList.remove("visible");
 }
 
-
-/* =========================================
-   REALIZAR PEDIDO
-========================================= */
+// REALIZAR PEDIDO
 
 function realizarPedido() {
+  if (carrito.length === 0) {
+    alert("Primero agrega productos a tu pedido.");
 
-    if (carrito.length === 0) {
+    return;
+  }
 
-        alert(
-            "Primero agrega productos a tu pedido."
-        );
+  const total = carrito.reduce(
+    (acumulado, producto) => acumulado + producto.precio * producto.cantidad,
 
-        return;
-    }
+    0,
+  );
 
+  document.getElementById("total-confirmacion").textContent = `$${total}`;
 
-    const total = carrito.reduce(
+  cerrarCarrito();
 
-        (acumulado, producto) =>
+  document.getElementById("fondo-cliente").classList.add("visible");
 
-            acumulado +
-            (
-                producto.precio *
-                producto.cantidad
-            ),
-
-        0
-    );
-
-
-    document.getElementById(
-        "total-confirmacion"
-    ).textContent = `$${total}`;
-
-
-    cerrarCarrito();
-
-
-    document.getElementById(
-        "fondo-cliente"
-    ).classList.add("visible");
-
-
-    document.getElementById(
-        "modal-cliente"
-    ).classList.add("visible");
-
+  document.getElementById("modal-cliente").classList.add("visible");
 }
 
 function cerrarFormularioCliente() {
+  document.getElementById("fondo-cliente").classList.remove("visible");
 
-    document.getElementById(
-        "fondo-cliente"
-    ).classList.remove("visible");
-
-
-    document.getElementById(
-        "modal-cliente"
-    ).classList.remove("visible");
-
+  document.getElementById("modal-cliente").classList.remove("visible");
 }
 
-
-/* =========================================
-   CONFIRMAR PEDIDO
-========================================= */
+// CONFIRMAR PEDIDO
 const WHATSAPP_PIKAFRESA = "529983018627";
 async function confirmarPedido() {
+  const nombre = document.getElementById("nombre-cliente").value.trim();
 
-    const nombre = document
-        .getElementById("nombre-cliente")
-        .value
-        .trim();
+  const telefono = document.getElementById("telefono-cliente").value.trim();
 
-    const telefono = document
-        .getElementById("telefono-cliente")
-        .value
-        .trim();
+  // VALIDAR NOMBRE
 
+  if (nombre.length < 2) {
+    alert("Ingresa un nombre válido.");
 
-    /* =========================
-       VALIDAR NOMBRE
-    ========================= */
+    return;
+  }
 
-    if (nombre.length < 2) {
+  // VALIDAR TELÉFONO
 
-        alert("Ingresa un nombre válido.");
+  if (!/^[0-9]{10}$/.test(telefono)) {
+    alert("Ingresa un número de WhatsApp de 10 dígitos.");
 
-        return;
-    }
+    return;
+  }
 
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío.");
 
-    /* =========================
-       VALIDAR TELÉFONO
-    ========================= */
+    return;
+  }
 
-    if (!/^[0-9]{10}$/.test(telefono)) {
+  // PREPARAR PRODUCTOS
 
-        alert(
-            "Ingresa un número de WhatsApp de 10 dígitos."
-        );
+  const productosPedido = carrito.map((producto) => {
+    return {
+      id: producto.id,
 
-        return;
-    }
+      cantidad: producto.cantidad,
 
-
-    if (carrito.length === 0) {
-
-        alert("Tu carrito está vacío.");
-
-        return;
-    }
-
-
-    /* =========================
-       PREPARAR PRODUCTOS
-    ========================= */
-
-    const productosPedido = carrito.map(producto => {
-
-        return {
-
-            id: producto.id,
-
-            cantidad: producto.cantidad,
-
-            extras: producto.extras.map(extra => {
-
-                /*
+      extras: producto.extras.map((extra) => {
+        /*
                     IMPORTANTE:
                     no enviamos el precio del extra.
                     Solo enviamos su nombre.
                 */
 
-                return {
-                    nombre: extra.nombre
-                };
-
-            }),
-
-            sabritaIncluida:
-                producto.sabritaIncluida,
-
-            sabritaExtra:
-                producto.sabritaExtra
-
+        return {
+          nombre: extra.nombre,
         };
+      }),
 
-    });
+      sabritaIncluida: producto.sabritaIncluida,
 
+      sabritaExtra: producto.sabritaExtra,
+    };
+  });
 
-    console.log(
-        "Enviando pedido:",
-        productosPedido
-    );
+  // ENVIAR A SUPABASE
 
+  const { data, error } = await supabaseCliente.rpc("crear_pedido", {
+    p_nombre_cliente: nombre,
 
-    /* =========================
-       ENVIAR A SUPABASE
-    ========================= */
+    p_telefono: telefono,
 
-    const { data, error } =
-        await supabaseCliente.rpc(
-            "crear_pedido",
-            {
+    p_productos: productosPedido,
+  });
 
-                p_nombre_cliente:
-                    nombre,
+  // ERROR
 
-                p_telefono:
-                    telefono,
+  if (error) {
+    console.error("Error al crear pedido:", error);
 
-                p_productos:
-                    productosPedido
+    alert("No se pudo crear el pedido.\n\n" + error.message);
 
-            }
-        );
+    return;
+  }
 
+  // PEDIDO CREADO
 
-    /* =========================
-       ERROR
-    ========================= */
+  // CREAR RESUMEN PARA WHATSAPP
+  let mensajeWhatsApp = `Hola, realicé un pedido en Pikafresa.\n\n`;
 
-    if (error) {
+  mensajeWhatsApp += `Pedido: ${data.numero_pedido}\n`;
 
-        console.error(
-            "Error al crear pedido:",
-            error
-        );
+  mensajeWhatsApp += `Cliente: ${nombre}\n`;
 
-        alert(
-            "No se pudo crear el pedido.\n\n" +
-            error.message
-        );
+  mensajeWhatsApp += `WhatsApp: ${telefono}\n\n`;
 
-        return;
-    }
+  mensajeWhatsApp += `PRODUCTOS:\n`;
 
+  // Recorrer productos del carrito
 
-    /* =========================
-       PEDIDO CREADO
-    ========================= */
-
-    console.log(
-        "Pedido creado:",
-        data
-    );
-
-
-    console.log("Pedido creado:", data);
-
-
-// ==========================================
-// CREAR RESUMEN PARA WHATSAPP
-// ==========================================
-
-let mensajeWhatsApp =
-    `Hola, realicé un pedido en Pikafresa.\n\n`;
-
-mensajeWhatsApp +=
-    `Pedido: ${data.numero_pedido}\n`;
-
-mensajeWhatsApp +=
-    `Cliente: ${nombre}\n`;
-
-mensajeWhatsApp +=
-    `WhatsApp: ${telefono}\n\n`;
-
-mensajeWhatsApp +=
-    `PRODUCTOS:\n`;
-
-
-// Recorrer productos del carrito
-
-carrito.forEach(producto => {
-
-    mensajeWhatsApp +=
-        `\n${producto.cantidad}x ${producto.nombre}\n`;
-
+  carrito.forEach((producto) => {
+    mensajeWhatsApp += `\n${producto.cantidad}x ${producto.nombre}\n`;
 
     // Extras
 
-    if (
-        producto.extras &&
-        producto.extras.length > 0
-    ) {
-
-        producto.extras.forEach(extra => {
-
-            mensajeWhatsApp +=
-                `+ ${extra.nombre}\n`;
-
-        });
-
+    if (producto.extras && producto.extras.length > 0) {
+      producto.extras.forEach((extra) => {
+        mensajeWhatsApp += `+ ${extra.nombre}\n`;
+      });
     }
-
 
     // Sabrita incluida
 
     if (producto.sabritaIncluida) {
-
-        mensajeWhatsApp +=
-            `Sabrita incluida: ${producto.sabritaIncluida}\n`;
-
+      mensajeWhatsApp += `Sabrita incluida: ${producto.sabritaIncluida}\n`;
     }
-
 
     // Sabrita extra
 
     if (producto.sabritaExtra) {
-
-        mensajeWhatsApp +=
-            `Sabrita extra: ${producto.sabritaExtra}\n`;
-
+      mensajeWhatsApp += `Sabrita extra: ${producto.sabritaExtra}\n`;
     }
+  });
 
-});
+  mensajeWhatsApp += `\nTOTAL OFICIAL: $${data.total}`;
 
+  mensajeWhatsApp += `\nPedido: ${data.numero_pedido}`;
 
-mensajeWhatsApp +=
-    `\nTOTAL OFICIAL: $${data.total}`;
+  mensajeWhatsApp += `\n\nEl pedido ya fue registrado.`;
 
-mensajeWhatsApp +=
-    `\nPedido: ${data.numero_pedido}`;
+  // CREAR ENLACE DE WHATSAPP
+  const enlaceWhatsApp = `https://wa.me/${WHATSAPP_PIKAFRESA}?text=${encodeURIComponent(
+    mensajeWhatsApp,
+  )}`;
 
-mensajeWhatsApp +=
-    `\n\nEl pedido ya fue registrado.`;
+  // LIMPIAR CARRITO
+  carrito = [];
 
+  actualizarCarrito();
 
-// ==========================================
-// CREAR ENLACE DE WHATSAPP
-// ==========================================
+  cerrarFormularioCliente();
 
-const enlaceWhatsApp =
-    `https://wa.me/${WHATSAPP_PIKAFRESA}?text=${
-        encodeURIComponent(mensajeWhatsApp)
-    }`;
+  document.getElementById("nombre-cliente").value = "";
 
+  document.getElementById("telefono-cliente").value = "";
 
-// ==========================================
-// LIMPIAR CARRITO
-// ==========================================
-
-carrito = [];
-
-actualizarCarrito();
-
-cerrarFormularioCliente();
-
-
-document.getElementById(
-    "nombre-cliente"
-).value = "";
-
-document.getElementById(
-    "telefono-cliente"
-).value = "";
-
-
-// ==========================================
-// ABRIR WHATSAPP
-// ==========================================
-
-window.location.href = enlaceWhatsApp;
-
+  // ABRIR WHATSAPP
+  window.location.href = enlaceWhatsApp;
 }
 
-/* =========================================
-   INICIAR PÁGINA
-========================================= */
+// INICIAR PÁGINA
 
 async function iniciarAplicacion() {
+  await cargarProductosDesdeSupabase();
 
-    await cargarProductosDesdeSupabase();
+  await cargarExtrasDesdeSupabase();
 
-    await cargarExtrasDesdeSupabase();
-
-    await cargarSabritasDesdeSupabase();
-
-}   
+  await cargarSabritasDesdeSupabase();
+}
 
 iniciarAplicacion();

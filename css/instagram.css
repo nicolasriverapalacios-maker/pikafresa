@@ -1,8 +1,0 @@
-.boton-instagram{display:inline-flex;align-items:center;gap:11px;margin-top:22px;padding:11px 16px;max-width:100%;min-height:48px;border:1.5px solid var(--rojo);border-radius:12px;background:var(--crema);color:var(--rojo);text-decoration:none;box-shadow:3px 3px 0 var(--rojo);transition:background .2s,box-shadow .2s}
-.boton-instagram:hover{background:white;box-shadow:4px 4px 0 var(--rojo)}
-.boton-instagram img{display:block;width:34px;height:34px;flex-shrink:0}
-.boton-instagram span{display:grid;gap:2px;min-width:0}
-.boton-instagram small{font-size:11px;font-weight:700;line-height:1.4}
-.boton-instagram strong{font-size:14px;line-height:1.4;overflow-wrap:anywhere}
-.boton-instagram:focus-visible{outline:3px solid var(--rojo);outline-offset:5px}
-@media(prefers-reduced-motion:reduce){.boton-instagram{transition:none}}
